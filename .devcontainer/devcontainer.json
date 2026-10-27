@@ -1,0 +1,33 @@
+{
+  "name": "Shinobi HUB - Python, Expo e PostgreSQL",
+  "dockerComposeFile": "compose.yaml",
+  "service": "dev",
+  "workspaceFolder": "/workspaces/shinobi-hub",
+  "remoteUser": "dev",
+  "updateRemoteUserUID": false,
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [8000, 8081],
+  "portsAttributes": {
+    "8000": {"label": "Django (desenvolvimento)", "onAutoForward": "notify"},
+    "8081": {"label": "Expo Metro", "onAutoForward": "notify"}
+  },
+  "remoteEnv": {
+    "SSH_AUTH_SOCK": null,
+    "GIT_ASKPASS": null,
+    "GIT_CONFIG_GLOBAL": "/home/dev/.gitconfig-isolated",
+    "GIT_CONFIG_NOSYSTEM": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-python.python"],
+      "settings": {
+        "python.defaultInterpreterPath": "/opt/venv/bin/python",
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "remote.autoForwardPorts": false,
+        "remote.localPortHost": "localhost",
+        "git.useIntegratedAskPass": false,
+        "git.terminalAuthentication": false
+      }
+    }
+  }
+}
