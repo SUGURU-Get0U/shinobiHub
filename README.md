@@ -1,6 +1,32 @@
 # 忍びHUB — ambiente de desenvolvimento
 
-Este pacote prepara o ambiente; ainda não cria o app Django nem o Expo.
+O ambiente inclui o backend Django em `backend/` e o primeiro protótipo Expo web
+em `frontend/`. Veja [como executar os dois](documentation/README.md) e o
+[marco do protótipo](documentation/milestone-01.md).
+
+## Backend Django
+
+No terminal do container, com as variáveis `DB_HOST`, `DB_PORT`, `DB_NAME`,
+`DB_USER` e `DB_PASSWORD` fornecidas pelo Compose:
+
+```bash
+source /opt/venv/bin/activate
+python -m pip install -r requirements-dev.txt
+python backend/manage.py check
+python backend/manage.py shell -c 'from django.db import connection; connection.ensure_connection(); print("PostgreSQL: OK")'
+python backend/manage.py runserver 0.0.0.0:8000
+```
+
+Em outro terminal, execute `curl http://localhost:8000/api/health/`.
+Esperado: HTTP 200 e `{"status": "ok"}`. Essa rota verifica apenas a aplicação;
+não consulta o banco nem expõe detalhes internos.
+
+O backend exige as cinco variáveis `DB_*`, sem fallback para SQLite.
+O modo DEBUG é apenas para desenvolvimento. `DJANGO_SECRET_KEY` pode fornecer
+uma chave estável; sem ela, uma chave aleatória temporária é criada por processo
+(sessões assinadas não persistem entre reinícios). Nenhuma chave é salva no código.
+As migrações ainda não foram aplicadas; quando necessário para admin/autenticação,
+execute `python backend/manage.py migrate`.
 
 ## 1. Windows
 
@@ -111,9 +137,10 @@ docker compose -f .devcontainer/compose.yaml exec dev bash
 Agora use os comandos Bash das etapas anteriores. O Docker continua no Windows;
 o container não recebe o socket nem o executável Docker.
 
-## 7. Próxima missão: iniciar Django
+## 7. Estrutura Django
 
-Só depois dos checks anteriores:
+O projeto já está criado em `backend/`; não repita `startproject`.
+A criação inicial usou:
 
 ```bash
 mkdir -p backend
@@ -121,8 +148,7 @@ cd backend
 python -m django startproject config .
 ```
 
-Na próxima etapa, configurar DATABASES usando as variáveis DB_* antes de executar
-migrate (o settings.py inicial ainda aponta para SQLite). Para expor o servidor de
+DATABASES já usa as variáveis DB_*. Para expor o servidor de
 desenvolvimento ao encaminhamento de portas: python manage.py runserver 0.0.0.0:8000.
 O navegador no Windows usará http://localhost:8000.
 
