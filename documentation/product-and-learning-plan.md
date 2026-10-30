@@ -46,6 +46,18 @@ Questions should guide understanding without requiring the learner to guess
 unexplained framework details. Introduce TypeScript through concrete examples
 such as the fields on a task card.
 
+## Traceability and small changes
+
+Maintain traceability of components and changes through small, focused commits.
+Each commit should have one clear purpose, explain the reason for the change,
+and include the verification relevant to it. Record affected components, commands
+and reasoning in the milestone or learning notes so the history is understandable.
+
+Develop features on a dedicated branch. Separate dependency installation,
+configuration and new behavior when each step can remain coherent and reviewable.
+Review the diff before committing and avoid mixing unrelated changes. Keep the
+application working at each checkpoint where possible.
+
 ## Milestone 01: interactive personal board
 
 Implementation and verification are tracked in [Milestone 01](milestone-01.md).
