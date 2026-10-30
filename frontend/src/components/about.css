@@ -1,0 +1,64 @@
+.about-page {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: clamp(120px, 22vh, 220px) 24px 80px;
+  overflow: hidden;
+  color: #f7f0ff;
+  background: radial-gradient(ellipse at 50% 30%, #291339 0%, #100c18 55%, #09070e 100%);
+  font-family: system-ui, sans-serif;
+}
+
+.about-background {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.about-panel {
+  box-sizing: border-box;
+  width: min(100%, 680px);
+  padding: clamp(28px, 6vw, 64px);
+  border: 1px solid #b78be344;
+  border-radius: 28px;
+  background: linear-gradient(145deg, #20132bed, #100d18f5);
+  box-shadow: 0 30px 100px #0006;
+}
+
+.about-eyebrow {
+  margin: 0 0 24px;
+  color: #e5c35a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.about-panel h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 54px);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+.about-description {
+  margin: 24px 0 32px;
+  color: #cdbed9;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.about-back {
+  display: inline-block;
+  padding: 12px 0;
+  color: #efcf76;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.about-back:hover { text-decoration: underline; }
+.about-back:focus-visible { outline: 2px solid #efcf76; outline-offset: 6px; }
