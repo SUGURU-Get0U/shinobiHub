@@ -29,6 +29,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web --localhost --port 8081",
+    "web:poll": "node --require ./scripts/metro-polling.cjs ./node_modules/expo/bin/cli start --web --localhost --port 8081",
     "typecheck": "tsc --noEmit",
     "test:e2e": "expo export --platform web && playwright test",
     "lint": "expo lint .",
