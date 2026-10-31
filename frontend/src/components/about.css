@@ -7,7 +7,7 @@
   min-height: 100vh;
   min-height: 100svh;
   padding: clamp(120px, 22vh, 220px) 24px 80px;
-  overflow: hidden;
+  overflow: visible;
   color: #f7f0ff;
   background: radial-gradient(ellipse at 50% 30%, #291339 0%, #100c18 55%, #09070e 100%);
   font-family: system-ui, sans-serif;
@@ -19,6 +19,22 @@
   z-index: -1;
   pointer-events: none;
 }
+
+.about-navigation {
+  position: absolute;
+  top: 24px;
+  left: 16px;
+  right: 16px;
+  z-index: 20;
+}
+
+.about-navigation .card-nav__logo {
+  color: #e5c35a;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.about-navigation .card-nav__link { color: #e5c35a; }
 
 .about-panel {
   box-sizing: border-box;
