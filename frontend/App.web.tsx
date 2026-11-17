@@ -10,6 +10,7 @@ import {
   validateTask,
 } from "./src/tasks";
 import type { Task } from "./src/tasks";
+import akariArtwork from "./assets/akari-aura.png";
 import "./board.css";
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:8000";
@@ -119,6 +120,13 @@ export default function App() {
         </div>
       </aside>
       <main id="board">
+        <div className="akari-backdrop" aria-hidden="true">
+          <div className="akari-aura" />
+          <div
+            className="akari-silhouette"
+            style={{ backgroundImage: `url("${String(akariArtwork)}")` }}
+          />
+        </div>
         <header className="topbar">
           <span>
             WORKSPACE <span className="muted">/ Personal board</span>
@@ -146,11 +154,6 @@ export default function App() {
             <button className="primary" onClick={() => open(newTask())}>
               ＋ Create card
             </button>
-          </div>
-          <div className="hero-orbit" aria-hidden="true">
-            <div />
-            <div />
-            <div />
           </div>
         </section>
         <section className="board-heading">

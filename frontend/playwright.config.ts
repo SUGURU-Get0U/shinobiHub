@@ -5,9 +5,9 @@ export default defineConfig({
   testMatch: '**/*.spec.ts',
   use: { baseURL: "http://127.0.0.1:8081", headless: true },
   webServer: {
-    command: "python -m http.server 8081 --bind 127.0.0.1 --directory dist",
+    command: "node tests/serve-web.mjs",
     url: "http://127.0.0.1:8081",
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
     timeout: 30000,
   },
 });

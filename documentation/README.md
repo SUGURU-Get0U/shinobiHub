@@ -94,6 +94,57 @@ are stored only in memory: refreshing the browser resets the board. Stop Expo
 with Ctrl+C. The board is web-only in this milestone; native screens come later.
 
 See [Milestone 01](milestone-01.md) for the learning walkthrough and tests.
+See [Milestone 02](milestone-02.md) for documentation reconciliation and fresh
+validation results. The current frontend uses a single `App` entry; adopting the
+Expo Router convention in `frontend/AGENTS.md` remains an explicit open decision.
+
+## Validate the board
+
+After installing frontend dependencies, run from `frontend/`:
+
+```bash
+npm run lint
+npm run typecheck
+npm run test:model
+npx playwright install chromium
+npm run test:e2e
+```
+
+The E2E command exports the web app and starts a Node static server on
+`127.0.0.1:8081`; stop Expo on that port first. Tests use their own server rather
+than silently reusing a possibly stale application. Python is not needed for
+frontend browser tests. Health responses are mocked for repeatable UI checks;
+check the indicator separately with real Django running.
+
+An optional browser integration test uses real Django without interception. With
+Django reachable on host `localhost:8000` and the default API URL in the exported
+bundle, run from `frontend/`:
+
+```bash
+SHINOBI_LIVE_API=1 npx playwright test tests/live-api.spec.ts
+```
+
+In PowerShell, set `$env:SHINOBI_LIVE_API = '1'` before the `npx` command and run
+`Remove-Item Env:SHINOBI_LIVE_API` afterwards. Run `npm run test:e2e` first to
+produce `dist`. The live test is skipped by default. A host browser needs port
+8000 forwarded locally from the container, as described above.
+
+The development image installs Chromium's system libraries during its build.
+Rebuild the container after pulling the Dockerfile change, then install the
+Chromium binary as the regular development user with the command above.
+When updating Playwright, keep `PLAYWRIGHT_VERSION` in the Dockerfile aligned
+with `frontend/package-lock.json`.
+
+From the project root inside the container, validate Django with:
+
+```bash
+python backend/manage.py check
+python backend/manage.py test config --noinput
+python backend/manage.py showmigrations
+```
+
+The health tests do not establish database readiness. Use the separate database
+connection check above; inspect migration state before deciding to run `migrate`.
 
 ## Development notes
 

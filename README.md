@@ -25,8 +25,9 @@ O backend exige as cinco variáveis `DB_*`, sem fallback para SQLite.
 O modo DEBUG é apenas para desenvolvimento. `DJANGO_SECRET_KEY` pode fornecer
 uma chave estável; sem ela, uma chave aleatória temporária é criada por processo
 (sessões assinadas não persistem entre reinícios). Nenhuma chave é salva no código.
-As migrações ainda não foram aplicadas; quando necessário para admin/autenticação,
-execute `python backend/manage.py migrate`.
+O estado das migrações depende do banco local e não pode ser inferido pelo código.
+Confira com `python backend/manage.py showmigrations`; quando necessário para
+admin/autenticação, execute `python backend/manage.py migrate`.
 
 ## 1. Windows
 
@@ -65,8 +66,8 @@ python -m django --version
 
 Esperado: usuário dev, diretório /workspaces/shinobi-hub e ferramentas instaladas.
 Python já usa /opt/venv; não precisa criar outra .venv no Windows.
-O Node 22 atende à base de desenvolvimento; a versão exata do Expo será escolhida
-na etapa do frontend conforme a compatibilidade do SDK.
+O container usa Node 22. O frontend já declara Expo SDK 58 (`~58.0.21`);
+confira a compatibilidade das dependências antes de atualizar o SDK.
 
 ## 3. Verificar PostgreSQL
 

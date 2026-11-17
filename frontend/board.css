@@ -41,6 +41,8 @@ button {
 }
 .app-shell {
   display: flex;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
 }
 .sidebar {
@@ -126,9 +128,46 @@ button {
   padding-top: 22px;
 }
 main {
+  position: relative;
+  isolation: isolate;
   flex: 1;
   min-width: 0;
   padding: 0 40px;
+}
+main > :not(.akari-backdrop) {
+  position: relative;
+  z-index: 1;
+}
+.akari-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.akari-aura {
+  position: absolute;
+  width: 760px;
+  height: 760px;
+  max-width: 100%;
+  top: 0;
+  right: -90px;
+  background: radial-gradient(ellipse, #ed6cba24 0%, #ce419515 36%, transparent 68%);
+  animation: akari-glow 9s ease-in-out infinite alternate;
+}
+.akari-silhouette {
+  position: absolute;
+  top: 68px;
+  right: -35px;
+  width: min(880px, 88%);
+  height: 720px;
+  background-position: center top;
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.94;
+  filter: drop-shadow(0 0 28px #f379c530);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 68%, transparent 100%);
 }
 .topbar {
   height: 85px;
@@ -159,8 +198,7 @@ main {
   border: 1px solid #403052;
   border-radius: 15px;
   background:
-    radial-gradient(ellipse at 90% 20%, #59287c70, transparent 60%),
-    linear-gradient(120deg, #201729, #15121f);
+    linear-gradient(90deg, #201729f5 0%, #201729e8 32%, #20172977 57%, #15121f12 100%);
 }
 .eyebrow {
   font-size: 9px;
@@ -217,32 +255,6 @@ h1 span {
 .secondary {
   border: 1px solid #534461;
   background: #282131;
-}
-.hero-orbit {
-  position: absolute;
-  right: 11%;
-  top: 45px;
-  width: 120px;
-  height: 160px;
-  perspective: 600px;
-  pointer-events: none;
-}
-.hero-orbit div {
-  position: absolute;
-  inset: 0;
-  border: 1px solid #ba7cff88;
-  background: linear-gradient(135deg, #b674f01a, #a66bd033);
-  transform: rotateX(20deg) rotateY(-30deg) rotateZ(22deg);
-  box-shadow: 0 0 50px #a250e244;
-}
-.hero-orbit div:nth-child(2) {
-  inset: 18px;
-  transform: rotateX(20deg) rotateY(-30deg) rotateZ(45deg);
-}
-.hero-orbit div:nth-child(3) {
-  inset: 38px;
-  border-color: #e9c779;
-  transform: rotateZ(65deg);
 }
 .board-heading {
   display: flex;
@@ -524,6 +536,14 @@ input[type="color"] {
     transform: rotateX(25deg) rotateY(-15deg) rotateZ(18deg) translateY(-12px);
   }
 }
+@keyframes akari-glow {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
 @media (min-width: 1600px) {
   main {
     padding: 0 65px;
@@ -549,13 +569,13 @@ input[type="color"] {
   main {
     padding: 0 22px;
   }
-  .hero-orbit {
-    right: 7%;
-    opacity: 0.4;
+  .akari-silhouette {
+    width: 720px;
+    right: -210px;
+    opacity: 0.7;
   }
-  .hero > *:not(.hero-orbit) {
-    position: relative;
-    z-index: 1;
+  .hero {
+    background: linear-gradient(90deg, #201729f5, #201729c9 54%, #15121f30);
   }
 }
 @media (max-width: 600px) {
@@ -577,8 +597,20 @@ input[type="color"] {
     align-items: flex-start;
     flex-direction: column;
   }
-  .hero-orbit {
-    opacity: 0.22;
+  .akari-silhouette {
+    top: 74px;
+    width: 620px;
+    height: 620px;
+    right: -210px;
+    opacity: 0.65;
+  }
+  .akari-aura {
+    width: 580px;
+    height: 620px;
+    right: -110px;
+  }
+  .hero {
+    background: linear-gradient(90deg, #201729ed, #201729c9 58%, #15121f48);
   }
   .board-heading {
     align-items: flex-start;

@@ -11,6 +11,13 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends git ca-certificates curl build-essential libpq-dev postgresql-client procps \
     && rm -rf /var/lib/apt/lists/*
 
+# Match frontend/package-lock.json. Install browser system libraries as root at
+# build time; the dev user installs the Chromium binary with Playwright later.
+ARG PLAYWRIGHT_VERSION=1.64.1
+RUN npx --yes playwright@${PLAYWRIGHT_VERSION} install-deps chromium \
+    && npm cache clean --force \
+    && rm -rf /var/lib/apt/lists/*
+
 ARG CODEX_VERSION=latest
 RUN npm install -g @openai/codex@${CODEX_VERSION} && npm cache clean --force
 

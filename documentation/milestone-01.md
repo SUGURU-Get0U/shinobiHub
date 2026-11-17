@@ -1,6 +1,7 @@
 # Milestone 01 — Personal board prototype
 
-Status: prototype implemented; browser acceptance checks pending container browser dependencies.
+Status: prototype implemented. The original browser verification was blocked by
+container dependencies; see [Milestone 02](milestone-02.md) for the current validation.
 
 ## Goal and scope
 
@@ -105,7 +106,11 @@ python backend/manage.py check
 python backend/manage.py test config --noinput
 ```
 
-## Verification results and limitations
+## Historical verification results and limitations
+
+These results describe the original prototype run, not a guarantee about a fresh
+checkout. Current validation and reproducibility work is tracked in
+[Milestone 02](milestone-02.md).
 
 - Django system checks: passed.
 - Three backend tests: passed (allowed origin, rejected origin, other-route scope).

@@ -57,9 +57,10 @@ Implementation and verification are tracked in [Milestone 01](milestone-01.md).
 - Show API connection state using Django's existing `/api/health/` endpoint.
 - Document how to run and test the screen.
 
-After the first card works, expand toward creation/editing, a persistent Django
-task API, board organization and dashboards. Add complex 3D scenes incrementally
-after evaluating usability and performance.
+The prototype now supports creation/editing in React memory. A persistent Django
+task API, richer board organization and dashboards remain future work. Add complex
+3D scenes incrementally after evaluating usability and performance. See
+[Milestone 02](milestone-02.md) for baseline validation and documentation reconciliation.
 
 ## Personal board and feelings
 
@@ -69,7 +70,8 @@ progress points.
 
 Requested labels:
 
-- Standard progress statuses, with their exact initial set still to be confirmed.
+- Standard progress statuses. The prototype provisionally uses To do, In progress,
+  Blocked, Waiting on someone and Done; final semantics still need confirmation.
 - **I'm procrastinating:** a manual label the user can choose when a task has
   remained In progress too long without an update.
 - **I don't want to do it:** for boring or otherwise unappealing work, including
@@ -79,9 +81,9 @@ Requested labels:
 
 Confirmed model: separate progress from a feeling/attention label. This allows
 a card to be both In progress and I don't want to do it.
-For redirected work, propose a Waiting on someone status with a person/team,
-an optional reason and an optional follow-up date. These are proposals rather
-than implemented fields.
+For redirected work, the prototype implements Waiting on someone, an editable
+person/team and dependency reason. These are provisional product choices. A separate
+follow-up date remains a proposal and is not implemented.
 
 Each card must have a user-selected review deadline (date and time), rather
 than a single global inactivity threshold. Tasks vary: a fictional server check
@@ -92,8 +94,8 @@ feelings. Do not automatically mark the task Done or I'm procrastinating.
 Review deadlines are mandatory, including during initial card creation. This is
 an intentional personal accountability feature requested by the user. The create
 form must require a deadline, and the eventual backend API must reject new cards
-without one. Quick choices such as In 10 minutes, In 1 hour and Pick date/time
-are proposed conveniences; they still resolve to an explicit date and time.
+without one. The prototype implements In 10 minutes, In 1 hour, In 24 hours and
+a custom date/time input; each resolves to an explicit date and time.
 
 ## Editing and customization
 
@@ -101,7 +103,8 @@ Confirmed requirement: all user-controlled card fields must remain editable at
 any time, including after the review deadline passes. This includes title,
 description, ticket/task reference, progress, feeling, priority, planned time
 bucket, review deadline, appearance and any dependency/follow-up fields offered
-by the card. The detailed field set and editing UI are still to be implemented.
+by the card. The prototype implements these controls in its detail panel, except
+for the separately proposed follow-up date. Saving currently updates memory only.
 
 Overdue reminders must not lock a card or require a separate review workflow
 before editing. The user can extend a deadline directly without first changing
@@ -117,7 +120,8 @@ Confirmed editing interface: selecting a card opens a detail panel containing
 its editable fields. Keep the board card focused on a readable summary; inline
 field editing is not part of the initial design. All user-controlled fields
 remain available through the panel, including when the card is overdue.
-Panel layout on smaller screens remains to be decided.
+The prototype panel fills the available width on small screens and stacks paired
+fields below 600px. This is an implemented provisional layout, not a final design approval.
 
 Confirmed save behavior: the detail panel uses explicit **Save** and **Cancel**
 buttons. Changes remain in a local draft until Save succeeds. Cancel discards
@@ -125,7 +129,9 @@ the draft and leaves the saved card unchanged. Validate required fields,
 including the review deadline, before saving. On validation or API failure,
 keep the panel open with the draft intact and show a useful error; do not show
 the changes as successfully saved. Closing the panel with unsaved edits needs
-an explicit discard decision; the exact interaction remains to be designed.
+an explicit discard decision. The prototype asks for confirmation on Escape or
+the close button when the draft is dirty; Cancel explicitly discards without a
+second prompt. API save failures remain future scope because no task API exists.
 
 Use the working term **review deadline**. An SLA is a service agreement, and an
 SLO is a service-level objective; this personal reminder does not implement
@@ -133,18 +139,20 @@ either. An estimated duration (for example, ten minutes of work) is distinct
 from an absolute deadline (for example, today at 14:30). Duration estimates
 are not yet confirmed as a separate feature.
 
-Proposed initial behavior, pending confirmation: overdue unfinished cards show
-a reminder inside the app, including when the app is reopened. The review lets
-the user update progress/feelings and choose a new review deadline. Notification
-delivery while the app is closed, reminder repetition/dismissal rules, and
-timezone handling remain to be designed. Completed cards should not request
-further progress reviews.
+Implemented prototype behavior: overdue unfinished cards show an in-app reminder,
+updated every 15 seconds. Users can edit progress, feelings and deadlines directly;
+Done cards do not request further reviews. Date input/display uses the browser's
+local timezone and values are stored as ISO timestamps in memory. Refreshing resets
+all cards, so reminders for saved work after reopening are not yet supported.
+Persistent reminders, background notifications, repetition/dismissal rules and a
+broader timezone policy remain proposals or unresolved decisions.
 
 ## Questions to resolve next
 
 - Confirm the standard statuses and how Waiting on someone differs from Blocked.
 - Confirm whether the first reminders should appear only inside the app.
-- Should initial priorities be a fixed set or user-defined from the beginning?
+- Confirm whether to retain the prototype's free-text priorities with Low/Medium/High
+  suggestions. There is no user-defined ordering or priority-management UI yet.
 
 Dashboard metrics remain undecided. Define what progress and team performance
 mean before implementing charts.
