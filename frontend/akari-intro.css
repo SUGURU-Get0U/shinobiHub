@@ -1,0 +1,148 @@
+.akari-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #08070a;
+  color: #fff;
+  isolation: isolate;
+}
+.intro-shot,
+.intro-flash,
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+}
+.intro-shot { opacity: 0; visibility: hidden; overflow: hidden; }
+.intro-shot > img:not(.intro-wide-art) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 57% center;
+}
+.intro-face::after,
+.intro-hand::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #08070ab3, transparent 68%), linear-gradient(0deg, #08070a88, transparent 45%);
+}
+.intro-eye-light {
+  position: absolute;
+  width: min(24vw, 300px);
+  height: 2px;
+  left: 68%;
+  top: 39%;
+  background: #ffc4e4;
+  box-shadow: 0 0 15px 5px #ff75bd, 0 0 70px 25px #fb5bad55;
+  transform-origin: center;
+  opacity: 0;
+}
+.intro-orb {
+  position: absolute;
+  left: 45%;
+  top: 39%;
+  width: 7vmin;
+  height: 7vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0 8%, #ffe4f5 18%, #f079b6aa 40%, transparent 72%);
+  box-shadow: 0 0 45px 13px #f376b866, 0 0 130px 25px #e9439780;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.intro-ring {
+  position: absolute;
+  left: 45%;
+  top: 39%;
+  width: 24vmin;
+  height: 24vmin;
+  border: 1px solid #ffd1ed;
+  border-radius: 50%;
+  box-shadow: 0 0 20px #f67bbb, inset 0 0 20px #f67bbb;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.intro-wide {
+  background: radial-gradient(ellipse at 62% 40%, #32212d 0, #100d13 47%, #08070a 85%);
+}
+.intro-moon {
+  position: absolute;
+  width: min(53vw, 550px);
+  aspect-ratio: 1;
+  left: 58%;
+  top: 47%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #fff 0, #dad7d7 39%, #88848a 74%, #39313b 100%);
+  box-shadow: 0 0 65px #f5d9e777, 0 0 180px #eb92b22d;
+  opacity: 0;
+}
+.intro-wide-art {
+  position: absolute;
+  width: min(132vh, 86vw);
+  max-width: none;
+  height: auto;
+  left: 62%;
+  top: 49%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 24px #f09bca6b);
+  opacity: 0;
+}
+.intro-title {
+  position: absolute;
+  left: 12%;
+  bottom: 20%;
+  font-size: clamp(38px, 7vw, 112px);
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-shadow: 0 0 30px #f296c893;
+  white-space: nowrap;
+  opacity: 0;
+}
+.intro-flash {
+  z-index: 2;
+  background: radial-gradient(circle at 52% 44%, #fff, #ffe5f4 20%, #ef8dbc 52%, #2c1729 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+.intro-vignette {
+  z-index: 3;
+  box-shadow: inset 0 0 15vw 4vw #08070a99;
+  pointer-events: none;
+}
+.intro-top-line,
+.intro-bottom-line {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  height: clamp(12px, 3vh, 32px);
+  background: #050408;
+  pointer-events: none;
+}
+.intro-top-line { top: 0; }
+.intro-bottom-line { bottom: 0; }
+.intro-skip {
+  position: absolute;
+  z-index: 5;
+  right: clamp(22px, 4vw, 65px);
+  bottom: clamp(26px, 5vh, 60px);
+  background: #0a080bc7;
+  color: #fff;
+  border: 1px solid #ffffff7a;
+  border-radius: 2px;
+  padding: 11px 15px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.intro-skip:hover { border-color: #f6a3d1; color: #f6a3d1; }
+.intro-skip span { margin-left: 16px; }
+@media (max-width: 600px) {
+  .intro-shot > img:not(.intro-wide-art) { object-position: 63% center; }
+  .intro-wide-art { width: 150vw; left: 54%; top: 47%; }
+  .intro-moon { width: 85vw; left: 54%; top: 38%; }
+  .intro-title { left: 8%; bottom: 17%; font-size: 13vw; }
+  .intro-eye-light { left: 65%; top: 42%; }
+  .intro-orb, .intro-ring { left: 45%; top: 43%; }
+}

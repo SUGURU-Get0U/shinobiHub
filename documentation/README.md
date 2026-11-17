@@ -88,7 +88,13 @@ public API address using `EXPO_PUBLIC_API_URL` before starting Expo. This value
 is included in the browser bundle and must never contain credentials. The current
 Django CORS allowance is limited to `localhost:8081` and `127.0.0.1:8081`.
 
-Select a card to open its detail panel. Save applies changes; Cancel discards them.
+After the Akari welcome animation, the Início screen follows the Figma welcome
+layout. Choose **Meu foco** to open the existing task board. Select a card to open
+its detail panel. Save applies changes; Cancel discards them.
+The animation plays on every load and reload. Use **Skip intro** or **Escape** to
+enter immediately; replay controls are in the Meu foco view. Reduced motion
+bypasses the animation. See
+[the intro notes](../docs/akari-intro.md) for details.
 Every card requires a title and review deadline. Cards use fictional data and
 are stored only in memory: refreshing the browser resets the board. Stop Expo
 with Ctrl+C. The board is web-only in this milestone; native screens come later.

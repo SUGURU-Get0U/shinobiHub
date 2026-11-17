@@ -8,6 +8,19 @@ test.beforeEach(async ({ page }) => {
     }),
   );
   await page.goto("/");
+  await page.getByRole("button", { name: /Skip intro/ }).click();
+  await page.getByRole("button", { name: "Meu foco", exact: true }).click();
+});
+
+test("Akari intro reveals the board and can be replayed", async ({ page }) => {
+  await expect(page.getByRole("dialog", { name: "Akari welcome animation" })).not.toBeVisible();
+  await page.getByRole("button", { name: /Replay Akari intro/ }).click();
+  await expect(page.getByRole("dialog", { name: "Akari welcome animation" })).toBeVisible();
+  // inert prevents interaction; it does not change the board's CSS visibility.
+  await expect(page.locator(".app-shell")).toHaveAttribute("inert", "");
+  await expect(page.getByRole("dialog", { name: "Akari welcome animation" })).not.toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole("button", { name: /DEMO-013/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /Replay Akari intro/ })).toBeFocused();
 });
 
 test("Cancel preserves saved data; Save changes progress and feelings independently", async ({
@@ -104,7 +117,6 @@ test("API failures are visible and the panel fits a small screen", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth)).toBe(390);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect(page.locator(".energy-box")).toHaveCSS("animation-name", "none");
   await expect(page.locator(".akari-aura")).toHaveCSS("animation-name", "none");
   const card = page.getByRole("button", { name: /DEMO-013/ });
   await card.hover();

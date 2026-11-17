@@ -127,6 +127,21 @@ button {
   border-top: 1px solid #292131;
   padding-top: 22px;
 }
+.replay-intro {
+  display: block;
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f4a8ce;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-align: left;
+}
+.replay-intro:hover:not(:disabled) { color: #fff; }
+.replay-intro:disabled,
+.mobile-replay-intro:disabled { opacity: 0.45; cursor: default; }
+.mobile-replay-intro { display: none; }
 main {
   position: relative;
   isolation: isolate;
@@ -134,7 +149,7 @@ main {
   min-width: 0;
   padding: 0 40px;
 }
-main > :not(.akari-backdrop) {
+main.focus-page > :not(.akari-backdrop) {
   position: relative;
   z-index: 1;
 }
@@ -145,6 +160,17 @@ main > :not(.akari-backdrop) {
   overflow: hidden;
   pointer-events: none;
   user-select: none;
+}
+.akari-moon {
+  position: absolute;
+  top: 100px;
+  right: 130px;
+  width: min(480px, 42vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f3f0ef, #b7b1b9 65%, #67606a 100%);
+  box-shadow: 0 0 75px #d4c3d43a;
+  opacity: 0.22;
 }
 .akari-aura {
   position: absolute;
@@ -579,6 +605,14 @@ input[type="color"] {
   }
 }
 @media (max-width: 600px) {
+  .mobile-replay-intro {
+    display: block;
+    border: 0;
+    background: transparent;
+    color: #f4a8ce;
+    font-size: 22px;
+  }
+  .akari-moon { width: 290px; right: -95px; top: 100px; }
   .sidebar {
     display: none;
   }

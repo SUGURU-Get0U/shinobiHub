@@ -11,11 +11,17 @@ import {
 } from "./src/tasks";
 import type { Task } from "./src/tasks";
 import akariArtwork from "./assets/akari-aura.png";
+import AkariIntro from "./src/components/AkariIntro";
+import SiteFonts from "./src/components/SiteFonts";
+import { WelcomeScene, WorkshopHeader, WorkshopNavigation } from "./src/components/WelcomePage";
+import type { WorkshopView } from "./src/components/WelcomePage";
 import "./board.css";
+import "./welcome.css";
 
 const apiUrl = process.env.EXPO_PUBLIC_API_URL || "http://localhost:8000";
 
 export default function App() {
+  const [view, setView] = useState<WorkshopView>("home");
   const [tasks, setTasks] = useState<Task[]>(exampleTasks);
   const [draft, setDraft] = useState<Task | null>(null);
   const [original, setOriginal] = useState("");
@@ -23,8 +29,37 @@ export default function App() {
   const [now, setNow] = useState(() => Date.now());
   const [health, setHealth] = useState("Checking API…");
   const [retry, setRetry] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(() =>
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+  const [introOpen, setIntroOpen] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  });
   const dialog = useRef<HTMLDialogElement>(null);
   const opener = useRef<HTMLElement | null>(null);
+  const introOpener = useRef<HTMLElement | null>(null);
+  const restoreIntroFocus = useRef(false);
+
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => setReducedMotion(motion.matches);
+    motion.addEventListener("change", updateMotion);
+    return () => motion.removeEventListener("change", updateMotion);
+  }, []);
+
+  useEffect(() => {
+    if (introOpen || !restoreIntroFocus.current) return;
+    restoreIntroFocus.current = false;
+    const frame = requestAnimationFrame(() => {
+      const previous = introOpener.current;
+      const usable = previous?.isConnected && previous.getClientRects().length &&
+        !(previous instanceof HTMLButtonElement && previous.disabled);
+      const target = usable ? previous : document.querySelector<HTMLElement>(".brand");
+      target?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [introOpen]);
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 15000);
@@ -95,32 +130,29 @@ export default function App() {
     close();
   }
 
+  function finishIntro() {
+    restoreIntroFocus.current = true;
+    setIntroOpen(false);
+  }
+
+  function replayIntro() {
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      introOpener.current = document.activeElement as HTMLElement;
+      setIntroOpen(true);
+    }
+  }
+
   const overdue = tasks.filter((task) => needsReview(task, now)).length;
   return (
-    <div className="app-shell">
-      <aside className="sidebar">
-        <a className="brand" href="#board">
-          <span className="brand-symbol">忍</span>
-          <span>
-            SHINOBI<small>PERSONAL WORKSPACE</small>
-          </span>
-        </a>
-        <div className="nav-label">YOUR SPACE</div>
-        <a className="nav-item active" href="#board">
-          ◈ &nbsp; Personal board <span>01</span>
-        </a>
-        <div className="sidebar-art" aria-hidden="true">
-          <div className="energy-box" />
-          <span>HADŌ / 90</span>
-        </div>
-        <div className="sidebar-footer">
-          A little structure.
-          <br />
-          Space for your mind.
-        </div>
-      </aside>
-      <main id="board">
+    <>
+      <SiteFonts />
+      <div className="app-shell workshop-shell" inert={introOpen}>
+      <WorkshopNavigation view={view} onNavigate={setView} />
+      <main id={view === "home" ? "home" : "board"} className={view === "home" ? "welcome-page" : "focus-page"}>
+        <WorkshopHeader onHome={() => setView("home")} />
+        {view === "home" ? <WelcomeScene /> : <>
         <div className="akari-backdrop" aria-hidden="true">
+          <div className="akari-moon" />
           <div className="akari-aura" />
           <div
             className="akari-silhouette"
@@ -137,6 +169,13 @@ export default function App() {
             title="Retry API connection"
           >
             ● {health}
+          </button>
+          <button className="mobile-replay-intro" onClick={replayIntro} aria-label="Replay Akari intro"
+            disabled={reducedMotion}
+            title={reducedMotion ? "Intro disabled while reduced motion is enabled" : "Replay Akari intro"}>↻</button>
+          <button className="replay-intro focus-replay" onClick={replayIntro} disabled={reducedMotion}
+            title={reducedMotion ? "Intro disabled while reduced motion is enabled" : "Replay Akari intro"}>
+            Replay Akari intro ↗
           </button>
         </header>
         <section className="hero">
@@ -196,6 +235,7 @@ export default function App() {
         <footer className="board-footer">
           Progress is a state. A feeling is information. Neither defines you.
         </footer>
+        </>}
       </main>
       <dialog
         ref={dialog}
@@ -399,7 +439,9 @@ export default function App() {
           </form>
         )}
       </dialog>
-    </div>
+      </div>
+      {introOpen && <AkariIntro onFinish={finishIntro} />}
+    </>
   );
 }
 

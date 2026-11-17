@@ -34,8 +34,15 @@
 | Success avatar | TBD | Concept only |
 | Full-body/reference art | TBD | Concept only |
 | Open-arms silhouette with pink aura | `frontend/assets/akari-aura.png` | Generated for the web-board background at the user's request; other avatar/outfit decisions remain open |
+| Intro face close-up | `frontend/assets/akari-intro-face.webp` | Supplied in the user's intro patch, applied on 2026-11-17 |
+| Intro hand close-up | `frontend/assets/akari-intro-hand.webp` | Supplied in the user's intro patch, applied on 2026-11-17 |
+| Homepage Akari artwork | `frontend/assets/figma-welcome-akari.png` | Exact asset from Figma frame 2:2, implemented on 2026-11-17 |
+| Homepage moon | `frontend/assets/figma-welcome-moon.png` | Exact asset from Figma frame 2:2, implemented on 2026-11-17 |
 
 The background illustration follows the written character direction without an
 image reference. Its exact generation prompt and usage are recorded in
 [akari-background.md](akari-background.md).
+
+The supplied welcome sequence and its behavior are described in
+[akari-intro.md](akari-intro.md).
 
